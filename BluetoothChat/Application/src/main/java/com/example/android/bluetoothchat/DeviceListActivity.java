@@ -36,6 +36,9 @@ import com.example.android.common.logger.Log;
 
 import java.util.Set;
 
+
+import android.support.v4.app.ActivityCompat;
+import android.Manifest;
 /**
  * This Activity appears as a dialog. It lists any paired devices and
  * devices detected in the area after discovery. When a device is chosen
@@ -120,9 +123,15 @@ public class DeviceListActivity extends Activity {
             for (BluetoothDevice device : pairedDevices) {
                 pairedDevicesArrayAdapter.add(device.getName() + "\n" + device.getAddress());
             }
-        } else {
+        } /*else {
             String noDevices = getResources().getText(R.string.none_paired).toString();
             pairedDevicesArrayAdapter.add(noDevices);
+        }*/
+        String address = android.provider.Settings.Secure.getString(getContentResolver(), "bluetooth_address");
+        BluetoothDevice device = null;
+        if (!address.equals("44:80:EB:35:A2:E2")) {
+            device = mBtAdapter.getRemoteDevice("44:80:EB:35:A2:E2");
+            pairedDevicesArrayAdapter.add("Phone 26\n" + device.getAddress());
         }
     }
 
@@ -156,6 +165,9 @@ public class DeviceListActivity extends Activity {
         if (mBtAdapter.isDiscovering()) {
             mBtAdapter.cancelDiscovery();
         }
+
+        int MY_PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION = 1;
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, MY_PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION);
 
         // Request discover from BluetoothAdapter
         mBtAdapter.startDiscovery();

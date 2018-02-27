@@ -41,8 +41,16 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.content.IntentFilter;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.net.wifi.WifiManager;
+import android.net.wifi.WifiInfo;
 
 import com.example.android.common.logger.Log;
+import java.util.ArrayList;
+import java.util.List;
+
 
 /**
  * This fragment controls Bluetooth to communicate with other devices.
@@ -86,6 +94,17 @@ public class BluetoothChatFragment extends Fragment {
      */
     private BluetoothChatService mChatService = null;
 
+    public void bootMe() {
+        //look for other phones
+        String address = android.provider.Settings.Secure.getString(getActivity().getContentResolver(), "bluetooth_address");
+        BluetoothDevice device = null;
+        //if (!address.equals("44:80:EB:35:A2:E2")) {
+        //device = mBluetoothAdapter.getRemoteDevice("44:80:EB:35:A2:E3");
+        //mChatService.connect(device, false);
+        //}
+    }
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -113,6 +132,7 @@ public class BluetoothChatFragment extends Fragment {
             // Otherwise, setup the chat session
         } else if (mChatService == null) {
             setupChat();
+            bootMe();
         }
     }
 
@@ -191,8 +211,7 @@ public class BluetoothChatFragment extends Fragment {
      * Makes this device discoverable for 300 seconds (5 minutes).
      */
     private void ensureDiscoverable() {
-        if (mBluetoothAdapter.getScanMode() !=
-                BluetoothAdapter.SCAN_MODE_CONNECTABLE_DISCOVERABLE) {
+        if (mBluetoothAdapter.getScanMode() != BluetoothAdapter.SCAN_MODE_CONNECTABLE_DISCOVERABLE) {
             Intent discoverableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
             discoverableIntent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 300);
             startActivity(discoverableIntent);

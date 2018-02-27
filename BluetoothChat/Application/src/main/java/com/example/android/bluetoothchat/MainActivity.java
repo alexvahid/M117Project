@@ -14,6 +14,13 @@
 * limitations under the License.
 */
 
+/*
+Connections are insecure now
+Devices are always discoverable
+Idea: show closest device passing message
+Show message encryption
+ */
+
 
 package com.example.android.bluetoothchat;
 
@@ -65,7 +72,7 @@ public class MainActivity extends SampleActivityBase {
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         MenuItem logToggle = menu.findItem(R.id.menu_toggle_log);
-        logToggle.setVisible(findViewById(R.id.sample_output) instanceof ViewAnimator);
+        //logToggle.setVisible(findViewById(R.id.sample_output) instanceof ViewAnimator);
         logToggle.setTitle(mLogShown ? R.string.sample_hide_log : R.string.sample_show_log);
 
         return super.onPrepareOptionsMenu(menu);
@@ -74,7 +81,7 @@ public class MainActivity extends SampleActivityBase {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()) {
-            case R.id.menu_toggle_log:
+            /*case R.id.menu_toggle_log:
                 mLogShown = !mLogShown;
                 ViewAnimator output = (ViewAnimator) findViewById(R.id.sample_output);
                 if (mLogShown) {
@@ -83,13 +90,13 @@ public class MainActivity extends SampleActivityBase {
                     output.setDisplayedChild(0);
                 }
                 supportInvalidateOptionsMenu();
-                return true;
+                return true;*/
         }
         return super.onOptionsItemSelected(item);
     }
 
     /** Create a chain of targets that will receive log data */
-    @Override
+    /*@Override
     public void initializeLogging() {
         // Wraps Android's native log framework.
         LogWrapper logWrapper = new LogWrapper();
@@ -101,10 +108,9 @@ public class MainActivity extends SampleActivityBase {
         logWrapper.setNext(msgFilter);
 
         // On screen logging via a fragment with a TextView.
-        LogFragment logFragment = (LogFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.log_fragment);
+        LogFragment logFragment = (LogFragment) getSupportFragmentManager().findFragmentById(R.id.log_fragment);
         msgFilter.setNext(logFragment.getLogView());
 
         Log.i(TAG, "Ready");
-    }
+    }*/
 }

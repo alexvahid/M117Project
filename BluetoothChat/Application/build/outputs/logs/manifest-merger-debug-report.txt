@@ -1,33 +1,18 @@
 -- Merging decision tree log ---
 manifest
 ADDED from /Users/Alex/Documents/117/M117Project/BluetoothChat/Application/src/main/AndroidManifest.xml:18:1-60:12
-INJECTED from /Users/Alex/Documents/117/M117Project/BluetoothChat/Application/src/main/AndroidManifest.xml:18:1-60:12
-INJECTED from /Users/Alex/Documents/117/M117Project/BluetoothChat/Application/src/main/AndroidManifest.xml:18:1-60:12
-MERGED from [com.android.support:appcompat-v7:25.0.1] /Users/Alex/.gradle/caches/transforms-1/files-1.1/appcompat-v7-25.0.1.aar/d6b34bca5af9590122bc9f42608447d1/AndroidManifest.xml:17:1-27:12
-MERGED from [com.android.support:support-v4:25.0.1] /Users/Alex/.gradle/caches/transforms-1/files-1.1/support-v4-25.0.1.aar/cc864cee4fa3c5613889155afdd89f1e/AndroidManifest.xml:17:1-27:12
-MERGED from [com.android.support:gridlayout-v7:25.0.1] /Users/Alex/.gradle/caches/transforms-1/files-1.1/gridlayout-v7-25.0.1.aar/b70b51853e0e164c71f57f23899079c4/AndroidManifest.xml:17:1-24:12
-MERGED from [com.android.support:cardview-v7:25.0.1] /Users/Alex/.gradle/caches/transforms-1/files-1.1/cardview-v7-25.0.1.aar/ad40a9ba58eada2434c0cc52496cfcfe/AndroidManifest.xml:17:1-24:12
-MERGED from [com.android.support:support-fragment:25.0.1] /Users/Alex/.gradle/caches/transforms-1/files-1.1/support-fragment-25.0.1.aar/cd004ace7ea3bd7e1bdc777000abc15d/AndroidManifest.xml:17:1-27:12
-MERGED from [com.android.support:support-media-compat:25.0.1] /Users/Alex/.gradle/caches/transforms-1/files-1.1/support-media-compat-25.0.1.aar/7688c4e9b3494ea777f05cc5d33b611a/AndroidManifest.xml:17:1-27:12
-MERGED from [com.android.support:support-core-utils:25.0.1] /Users/Alex/.gradle/caches/transforms-1/files-1.1/support-core-utils-25.0.1.aar/ea6c5f9983ef253c1d171e5d3df3fd99/AndroidManifest.xml:17:1-27:12
-MERGED from [com.android.support:support-core-ui:25.0.1] /Users/Alex/.gradle/caches/transforms-1/files-1.1/support-core-ui-25.0.1.aar/f3af9dbf4a1a5c0c15d1bef038cea2fd/AndroidManifest.xml:17:1-27:12
-MERGED from [com.android.support:animated-vector-drawable:25.0.1] /Users/Alex/.gradle/caches/transforms-1/files-1.1/animated-vector-drawable-25.0.1.aar/a0ae97c21c90d5eac196de78a6b547b8/AndroidManifest.xml:17:1-24:12
-MERGED from [com.android.support:support-vector-drawable:25.0.1] /Users/Alex/.gradle/caches/transforms-1/files-1.1/support-vector-drawable-25.0.1.aar/0f495fd9337b8485717e79c61941f81e/AndroidManifest.xml:17:1-25:12
-MERGED from [com.android.support:support-compat:25.0.1] /Users/Alex/.gradle/caches/transforms-1/files-1.1/support-compat-25.0.1.aar/678bdc29ad3f77ca92591c38ccf69c75/AndroidManifest.xml:17:1-27:12
-INJECTED from /Users/Alex/Documents/117/M117Project/BluetoothChat/Application/src/main/AndroidManifest.xml:18:1-60:12
-INJECTED from /Users/Alex/Documents/117/M117Project/BluetoothChat/Application/src/main/AndroidManifest.xml:18:1-60:12
 	package
 		ADDED from /Users/Alex/Documents/117/M117Project/BluetoothChat/Application/src/main/AndroidManifest.xml:19:5-48
 	android:versionName
 		ADDED from /Users/Alex/Documents/117/M117Project/BluetoothChat/Application/src/main/AndroidManifest.xml:22:5-30
 		INJECTED from /Users/Alex/Documents/117/M117Project/BluetoothChat/Application/src/main/AndroidManifest.xml
 		INJECTED from /Users/Alex/Documents/117/M117Project/BluetoothChat/Application/src/main/AndroidManifest.xml
-	xmlns:android
-		ADDED from /Users/Alex/Documents/117/M117Project/BluetoothChat/Application/src/main/AndroidManifest.xml:20:5-63
 	android:versionCode
 		ADDED from /Users/Alex/Documents/117/M117Project/BluetoothChat/Application/src/main/AndroidManifest.xml:21:5-28
 		INJECTED from /Users/Alex/Documents/117/M117Project/BluetoothChat/Application/src/main/AndroidManifest.xml
 		INJECTED from /Users/Alex/Documents/117/M117Project/BluetoothChat/Application/src/main/AndroidManifest.xml
+	xmlns:android
+		ADDED from /Users/Alex/Documents/117/M117Project/BluetoothChat/Application/src/main/AndroidManifest.xml:20:5-63
 uses-permission#android.permission.BLUETOOTH_ADMIN
 ADDED from /Users/Alex/Documents/117/M117Project/BluetoothChat/Application/src/main/AndroidManifest.xml:26:5-73
 	android:name
@@ -54,34 +39,23 @@ ADDED from /Users/Alex/Documents/117/M117Project/BluetoothChat/Application/src/m
 		ADDED from /Users/Alex/Documents/117/M117Project/BluetoothChat/Application/src/main/AndroidManifest.xml:31:22-78
 application
 ADDED from /Users/Alex/Documents/117/M117Project/BluetoothChat/Application/src/main/AndroidManifest.xml:33:5-58:19
-MERGED from [com.android.support:appcompat-v7:25.0.1] /Users/Alex/.gradle/caches/transforms-1/files-1.1/appcompat-v7-25.0.1.aar/d6b34bca5af9590122bc9f42608447d1/AndroidManifest.xml:25:5-20
-MERGED from [com.android.support:appcompat-v7:25.0.1] /Users/Alex/.gradle/caches/transforms-1/files-1.1/appcompat-v7-25.0.1.aar/d6b34bca5af9590122bc9f42608447d1/AndroidManifest.xml:25:5-20
-MERGED from [com.android.support:support-v4:25.0.1] /Users/Alex/.gradle/caches/transforms-1/files-1.1/support-v4-25.0.1.aar/cc864cee4fa3c5613889155afdd89f1e/AndroidManifest.xml:25:5-20
-MERGED from [com.android.support:support-v4:25.0.1] /Users/Alex/.gradle/caches/transforms-1/files-1.1/support-v4-25.0.1.aar/cc864cee4fa3c5613889155afdd89f1e/AndroidManifest.xml:25:5-20
-MERGED from [com.android.support:gridlayout-v7:25.0.1] /Users/Alex/.gradle/caches/transforms-1/files-1.1/gridlayout-v7-25.0.1.aar/b70b51853e0e164c71f57f23899079c4/AndroidManifest.xml:22:5-20
-MERGED from [com.android.support:gridlayout-v7:25.0.1] /Users/Alex/.gradle/caches/transforms-1/files-1.1/gridlayout-v7-25.0.1.aar/b70b51853e0e164c71f57f23899079c4/AndroidManifest.xml:22:5-20
-MERGED from [com.android.support:cardview-v7:25.0.1] /Users/Alex/.gradle/caches/transforms-1/files-1.1/cardview-v7-25.0.1.aar/ad40a9ba58eada2434c0cc52496cfcfe/AndroidManifest.xml:22:5-20
-MERGED from [com.android.support:cardview-v7:25.0.1] /Users/Alex/.gradle/caches/transforms-1/files-1.1/cardview-v7-25.0.1.aar/ad40a9ba58eada2434c0cc52496cfcfe/AndroidManifest.xml:22:5-20
-MERGED from [com.android.support:support-fragment:25.0.1] /Users/Alex/.gradle/caches/transforms-1/files-1.1/support-fragment-25.0.1.aar/cd004ace7ea3bd7e1bdc777000abc15d/AndroidManifest.xml:25:5-20
-MERGED from [com.android.support:support-fragment:25.0.1] /Users/Alex/.gradle/caches/transforms-1/files-1.1/support-fragment-25.0.1.aar/cd004ace7ea3bd7e1bdc777000abc15d/AndroidManifest.xml:25:5-20
-MERGED from [com.android.support:support-media-compat:25.0.1] /Users/Alex/.gradle/caches/transforms-1/files-1.1/support-media-compat-25.0.1.aar/7688c4e9b3494ea777f05cc5d33b611a/AndroidManifest.xml:25:5-20
-MERGED from [com.android.support:support-media-compat:25.0.1] /Users/Alex/.gradle/caches/transforms-1/files-1.1/support-media-compat-25.0.1.aar/7688c4e9b3494ea777f05cc5d33b611a/AndroidManifest.xml:25:5-20
-MERGED from [com.android.support:support-core-utils:25.0.1] /Users/Alex/.gradle/caches/transforms-1/files-1.1/support-core-utils-25.0.1.aar/ea6c5f9983ef253c1d171e5d3df3fd99/AndroidManifest.xml:25:5-20
-MERGED from [com.android.support:support-core-utils:25.0.1] /Users/Alex/.gradle/caches/transforms-1/files-1.1/support-core-utils-25.0.1.aar/ea6c5f9983ef253c1d171e5d3df3fd99/AndroidManifest.xml:25:5-20
-MERGED from [com.android.support:support-core-ui:25.0.1] /Users/Alex/.gradle/caches/transforms-1/files-1.1/support-core-ui-25.0.1.aar/f3af9dbf4a1a5c0c15d1bef038cea2fd/AndroidManifest.xml:25:5-20
-MERGED from [com.android.support:support-core-ui:25.0.1] /Users/Alex/.gradle/caches/transforms-1/files-1.1/support-core-ui-25.0.1.aar/f3af9dbf4a1a5c0c15d1bef038cea2fd/AndroidManifest.xml:25:5-20
-MERGED from [com.android.support:animated-vector-drawable:25.0.1] /Users/Alex/.gradle/caches/transforms-1/files-1.1/animated-vector-drawable-25.0.1.aar/a0ae97c21c90d5eac196de78a6b547b8/AndroidManifest.xml:22:5-20
-MERGED from [com.android.support:animated-vector-drawable:25.0.1] /Users/Alex/.gradle/caches/transforms-1/files-1.1/animated-vector-drawable-25.0.1.aar/a0ae97c21c90d5eac196de78a6b547b8/AndroidManifest.xml:22:5-20
-MERGED from [com.android.support:support-vector-drawable:25.0.1] /Users/Alex/.gradle/caches/transforms-1/files-1.1/support-vector-drawable-25.0.1.aar/0f495fd9337b8485717e79c61941f81e/AndroidManifest.xml:23:5-20
-MERGED from [com.android.support:support-vector-drawable:25.0.1] /Users/Alex/.gradle/caches/transforms-1/files-1.1/support-vector-drawable-25.0.1.aar/0f495fd9337b8485717e79c61941f81e/AndroidManifest.xml:23:5-20
-MERGED from [com.android.support:support-compat:25.0.1] /Users/Alex/.gradle/caches/transforms-1/files-1.1/support-compat-25.0.1.aar/678bdc29ad3f77ca92591c38ccf69c75/AndroidManifest.xml:25:5-20
-MERGED from [com.android.support:support-compat:25.0.1] /Users/Alex/.gradle/caches/transforms-1/files-1.1/support-compat-25.0.1.aar/678bdc29ad3f77ca92591c38ccf69c75/AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:gridlayout-v7:25.0.1] /Users/Alex/Documents/117/M117Project/BluetoothChat/Application/build/intermediates/exploded-aar/com.android.support/gridlayout-v7/25.0.1/AndroidManifest.xml:22:5-20
+MERGED from [com.android.support:cardview-v7:25.0.1] /Users/Alex/Documents/117/M117Project/BluetoothChat/Application/build/intermediates/exploded-aar/com.android.support/cardview-v7/25.0.1/AndroidManifest.xml:22:5-20
+MERGED from [com.android.support:appcompat-v7:25.0.1] /Users/Alex/Documents/117/M117Project/BluetoothChat/Application/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.1/AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-v4:25.0.1] /Users/Alex/Documents/117/M117Project/BluetoothChat/Application/build/intermediates/exploded-aar/com.android.support/support-v4/25.0.1/AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-fragment:25.0.1] /Users/Alex/Documents/117/M117Project/BluetoothChat/Application/build/intermediates/exploded-aar/com.android.support/support-fragment/25.0.1/AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-media-compat:25.0.1] /Users/Alex/Documents/117/M117Project/BluetoothChat/Application/build/intermediates/exploded-aar/com.android.support/support-media-compat/25.0.1/AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-core-ui:25.0.1] /Users/Alex/Documents/117/M117Project/BluetoothChat/Application/build/intermediates/exploded-aar/com.android.support/support-core-ui/25.0.1/AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-core-utils:25.0.1] /Users/Alex/Documents/117/M117Project/BluetoothChat/Application/build/intermediates/exploded-aar/com.android.support/support-core-utils/25.0.1/AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:animated-vector-drawable:25.0.1] /Users/Alex/Documents/117/M117Project/BluetoothChat/Application/build/intermediates/exploded-aar/com.android.support/animated-vector-drawable/25.0.1/AndroidManifest.xml:22:5-20
+MERGED from [com.android.support:support-vector-drawable:25.0.1] /Users/Alex/Documents/117/M117Project/BluetoothChat/Application/build/intermediates/exploded-aar/com.android.support/support-vector-drawable/25.0.1/AndroidManifest.xml:23:5-20
+MERGED from [com.android.support:support-compat:25.0.1] /Users/Alex/Documents/117/M117Project/BluetoothChat/Application/build/intermediates/exploded-aar/com.android.support/support-compat/25.0.1/AndroidManifest.xml:25:5-20
 	android:label
 		ADDED from /Users/Alex/Documents/117/M117Project/BluetoothChat/Application/src/main/AndroidManifest.xml:36:9-41
-	android:icon
-		ADDED from /Users/Alex/Documents/117/M117Project/BluetoothChat/Application/src/main/AndroidManifest.xml:35:9-45
 	android:allowBackup
 		ADDED from /Users/Alex/Documents/117/M117Project/BluetoothChat/Application/src/main/AndroidManifest.xml:34:9-35
+	android:icon
+		ADDED from /Users/Alex/Documents/117/M117Project/BluetoothChat/Application/src/main/AndroidManifest.xml:35:9-40
 	android:theme
 		ADDED from /Users/Alex/Documents/117/M117Project/BluetoothChat/Application/src/main/AndroidManifest.xml:37:9-40
 activity#com.example.android.bluetoothchat.MainActivity
@@ -116,39 +90,22 @@ ADDED from /Users/Alex/Documents/117/M117Project/BluetoothChat/Application/src/m
 		ADDED from /Users/Alex/Documents/117/M117Project/BluetoothChat/Application/src/main/AndroidManifest.xml:50:13-47
 uses-sdk
 INJECTED from /Users/Alex/Documents/117/M117Project/BluetoothChat/Application/src/main/AndroidManifest.xml reason: use-sdk injection requested
-INJECTED from /Users/Alex/Documents/117/M117Project/BluetoothChat/Application/src/main/AndroidManifest.xml
-INJECTED from /Users/Alex/Documents/117/M117Project/BluetoothChat/Application/src/main/AndroidManifest.xml
-MERGED from [com.android.support:appcompat-v7:25.0.1] /Users/Alex/.gradle/caches/transforms-1/files-1.1/appcompat-v7-25.0.1.aar/d6b34bca5af9590122bc9f42608447d1/AndroidManifest.xml:21:5-23:78
-MERGED from [com.android.support:appcompat-v7:25.0.1] /Users/Alex/.gradle/caches/transforms-1/files-1.1/appcompat-v7-25.0.1.aar/d6b34bca5af9590122bc9f42608447d1/AndroidManifest.xml:21:5-23:78
-MERGED from [com.android.support:support-v4:25.0.1] /Users/Alex/.gradle/caches/transforms-1/files-1.1/support-v4-25.0.1.aar/cc864cee4fa3c5613889155afdd89f1e/AndroidManifest.xml:21:5-23:54
-MERGED from [com.android.support:support-v4:25.0.1] /Users/Alex/.gradle/caches/transforms-1/files-1.1/support-v4-25.0.1.aar/cc864cee4fa3c5613889155afdd89f1e/AndroidManifest.xml:21:5-23:54
-MERGED from [com.android.support:gridlayout-v7:25.0.1] /Users/Alex/.gradle/caches/transforms-1/files-1.1/gridlayout-v7-25.0.1.aar/b70b51853e0e164c71f57f23899079c4/AndroidManifest.xml:20:5-43
-MERGED from [com.android.support:gridlayout-v7:25.0.1] /Users/Alex/.gradle/caches/transforms-1/files-1.1/gridlayout-v7-25.0.1.aar/b70b51853e0e164c71f57f23899079c4/AndroidManifest.xml:20:5-43
-MERGED from [com.android.support:cardview-v7:25.0.1] /Users/Alex/.gradle/caches/transforms-1/files-1.1/cardview-v7-25.0.1.aar/ad40a9ba58eada2434c0cc52496cfcfe/AndroidManifest.xml:20:5-43
-MERGED from [com.android.support:cardview-v7:25.0.1] /Users/Alex/.gradle/caches/transforms-1/files-1.1/cardview-v7-25.0.1.aar/ad40a9ba58eada2434c0cc52496cfcfe/AndroidManifest.xml:20:5-43
-MERGED from [com.android.support:support-fragment:25.0.1] /Users/Alex/.gradle/caches/transforms-1/files-1.1/support-fragment-25.0.1.aar/cd004ace7ea3bd7e1bdc777000abc15d/AndroidManifest.xml:21:5-23:60
-MERGED from [com.android.support:support-fragment:25.0.1] /Users/Alex/.gradle/caches/transforms-1/files-1.1/support-fragment-25.0.1.aar/cd004ace7ea3bd7e1bdc777000abc15d/AndroidManifest.xml:21:5-23:60
-MERGED from [com.android.support:support-media-compat:25.0.1] /Users/Alex/.gradle/caches/transforms-1/files-1.1/support-media-compat-25.0.1.aar/7688c4e9b3494ea777f05cc5d33b611a/AndroidManifest.xml:21:5-23:63
-MERGED from [com.android.support:support-media-compat:25.0.1] /Users/Alex/.gradle/caches/transforms-1/files-1.1/support-media-compat-25.0.1.aar/7688c4e9b3494ea777f05cc5d33b611a/AndroidManifest.xml:21:5-23:63
-MERGED from [com.android.support:support-core-utils:25.0.1] /Users/Alex/.gradle/caches/transforms-1/files-1.1/support-core-utils-25.0.1.aar/ea6c5f9983ef253c1d171e5d3df3fd99/AndroidManifest.xml:21:5-23:61
-MERGED from [com.android.support:support-core-utils:25.0.1] /Users/Alex/.gradle/caches/transforms-1/files-1.1/support-core-utils-25.0.1.aar/ea6c5f9983ef253c1d171e5d3df3fd99/AndroidManifest.xml:21:5-23:61
-MERGED from [com.android.support:support-core-ui:25.0.1] /Users/Alex/.gradle/caches/transforms-1/files-1.1/support-core-ui-25.0.1.aar/f3af9dbf4a1a5c0c15d1bef038cea2fd/AndroidManifest.xml:21:5-23:58
-MERGED from [com.android.support:support-core-ui:25.0.1] /Users/Alex/.gradle/caches/transforms-1/files-1.1/support-core-ui-25.0.1.aar/f3af9dbf4a1a5c0c15d1bef038cea2fd/AndroidManifest.xml:21:5-23:58
-MERGED from [com.android.support:animated-vector-drawable:25.0.1] /Users/Alex/.gradle/caches/transforms-1/files-1.1/animated-vector-drawable-25.0.1.aar/a0ae97c21c90d5eac196de78a6b547b8/AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:animated-vector-drawable:25.0.1] /Users/Alex/.gradle/caches/transforms-1/files-1.1/animated-vector-drawable-25.0.1.aar/a0ae97c21c90d5eac196de78a6b547b8/AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-vector-drawable:25.0.1] /Users/Alex/.gradle/caches/transforms-1/files-1.1/support-vector-drawable-25.0.1.aar/0f495fd9337b8485717e79c61941f81e/AndroidManifest.xml:21:5-43
-MERGED from [com.android.support:support-vector-drawable:25.0.1] /Users/Alex/.gradle/caches/transforms-1/files-1.1/support-vector-drawable-25.0.1.aar/0f495fd9337b8485717e79c61941f81e/AndroidManifest.xml:21:5-43
-MERGED from [com.android.support:support-compat:25.0.1] /Users/Alex/.gradle/caches/transforms-1/files-1.1/support-compat-25.0.1.aar/678bdc29ad3f77ca92591c38ccf69c75/AndroidManifest.xml:21:5-23:58
-MERGED from [com.android.support:support-compat:25.0.1] /Users/Alex/.gradle/caches/transforms-1/files-1.1/support-compat-25.0.1.aar/678bdc29ad3f77ca92591c38ccf69c75/AndroidManifest.xml:21:5-23:58
-INJECTED from /Users/Alex/Documents/117/M117Project/BluetoothChat/Application/src/main/AndroidManifest.xml
-INJECTED from /Users/Alex/Documents/117/M117Project/BluetoothChat/Application/src/main/AndroidManifest.xml
+MERGED from [com.android.support:gridlayout-v7:25.0.1] /Users/Alex/Documents/117/M117Project/BluetoothChat/Application/build/intermediates/exploded-aar/com.android.support/gridlayout-v7/25.0.1/AndroidManifest.xml:20:5-43
+MERGED from [com.android.support:cardview-v7:25.0.1] /Users/Alex/Documents/117/M117Project/BluetoothChat/Application/build/intermediates/exploded-aar/com.android.support/cardview-v7/25.0.1/AndroidManifest.xml:20:5-43
+MERGED from [com.android.support:appcompat-v7:25.0.1] /Users/Alex/Documents/117/M117Project/BluetoothChat/Application/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.1/AndroidManifest.xml:21:5-23:78
+MERGED from [com.android.support:support-v4:25.0.1] /Users/Alex/Documents/117/M117Project/BluetoothChat/Application/build/intermediates/exploded-aar/com.android.support/support-v4/25.0.1/AndroidManifest.xml:21:5-23:54
+MERGED from [com.android.support:support-fragment:25.0.1] /Users/Alex/Documents/117/M117Project/BluetoothChat/Application/build/intermediates/exploded-aar/com.android.support/support-fragment/25.0.1/AndroidManifest.xml:21:5-23:60
+MERGED from [com.android.support:support-media-compat:25.0.1] /Users/Alex/Documents/117/M117Project/BluetoothChat/Application/build/intermediates/exploded-aar/com.android.support/support-media-compat/25.0.1/AndroidManifest.xml:21:5-23:63
+MERGED from [com.android.support:support-core-ui:25.0.1] /Users/Alex/Documents/117/M117Project/BluetoothChat/Application/build/intermediates/exploded-aar/com.android.support/support-core-ui/25.0.1/AndroidManifest.xml:21:5-23:58
+MERGED from [com.android.support:support-core-utils:25.0.1] /Users/Alex/Documents/117/M117Project/BluetoothChat/Application/build/intermediates/exploded-aar/com.android.support/support-core-utils/25.0.1/AndroidManifest.xml:21:5-23:61
+MERGED from [com.android.support:animated-vector-drawable:25.0.1] /Users/Alex/Documents/117/M117Project/BluetoothChat/Application/build/intermediates/exploded-aar/com.android.support/animated-vector-drawable/25.0.1/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-vector-drawable:25.0.1] /Users/Alex/Documents/117/M117Project/BluetoothChat/Application/build/intermediates/exploded-aar/com.android.support/support-vector-drawable/25.0.1/AndroidManifest.xml:21:5-43
+MERGED from [com.android.support:support-compat:25.0.1] /Users/Alex/Documents/117/M117Project/BluetoothChat/Application/build/intermediates/exploded-aar/com.android.support/support-compat/25.0.1/AndroidManifest.xml:21:5-23:58
 	tools:overrideLibrary
-		ADDED from [com.android.support:appcompat-v7:25.0.1] /Users/Alex/.gradle/caches/transforms-1/files-1.1/appcompat-v7-25.0.1.aar/d6b34bca5af9590122bc9f42608447d1/AndroidManifest.xml:23:9-75
+		ADDED from [com.android.support:appcompat-v7:25.0.1] /Users/Alex/Documents/117/M117Project/BluetoothChat/Application/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.1/AndroidManifest.xml:23:9-75
 	android:targetSdkVersion
 		INJECTED from /Users/Alex/Documents/117/M117Project/BluetoothChat/Application/src/main/AndroidManifest.xml
-		ADDED from /Users/Alex/Documents/117/M117Project/BluetoothChat/Application/src/main/AndroidManifest.xml
 		INJECTED from /Users/Alex/Documents/117/M117Project/BluetoothChat/Application/src/main/AndroidManifest.xml
 	android:minSdkVersion
 		INJECTED from /Users/Alex/Documents/117/M117Project/BluetoothChat/Application/src/main/AndroidManifest.xml
-		ADDED from /Users/Alex/Documents/117/M117Project/BluetoothChat/Application/src/main/AndroidManifest.xml
 		INJECTED from /Users/Alex/Documents/117/M117Project/BluetoothChat/Application/src/main/AndroidManifest.xml

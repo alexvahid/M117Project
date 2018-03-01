@@ -132,6 +132,9 @@ public class DeviceListActivity extends Activity {
         if (!address.equals("44:80:EB:35:A2:E2")) {
             device = mBtAdapter.getRemoteDevice("44:80:EB:35:A2:E2");
             pairedDevicesArrayAdapter.add("Phone 26\n" + device.getAddress());
+        }if (!address.equals("B4:BF:F6:CE:6F:A3")) {
+            device = mBtAdapter.getRemoteDevice("B4:BF:F6:CE:6F:A3");
+            pairedDevicesArrayAdapter.add("Phone 26\n" + device.getAddress());
         }
     }
 

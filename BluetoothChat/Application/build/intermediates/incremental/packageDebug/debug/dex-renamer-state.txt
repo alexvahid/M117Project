@@ -1,4 +1,0 @@
-#Tue Feb 27 12:55:20 PST 2018
-base.0=/Users/Alex/Documents/117/M117Project/BluetoothChat/Application/build/intermediates/transforms/dexMerger/debug/56
-path.0=classes.dex
-renamed.0=classes.dex

@@ -20,8 +20,8 @@
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="24"
-        android:targetSdkVersion="24" />
+        android:minSdkVersion="11"
+        android:targetSdkVersion="25" />
 
     <!-- Min/target SDK versions (<uses-sdk>) managed by build.gradle -->
 
@@ -34,10 +34,8 @@
 
     <application
         android:allowBackup="true"
-        android:debuggable="true"
-        android:icon="@drawable/ic_launcher"
+        android:icon="@drawable/apples"
         android:label="@string/app_name"
-        android:testOnly="true"
         android:theme="@style/AppTheme" >
         <activity
             android:name="com.example.android.bluetoothchat.MainActivity"

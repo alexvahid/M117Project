@@ -407,7 +407,7 @@
     <string name="discoverable">Make discoverable</string>
     <string name="insecure_connect">Connect to chat!</string>
     <string name="intro_message">
-        <![CDATA[
+        
         
             
             This application allows two Android devices to carry out two-way text chat over
@@ -419,7 +419,7 @@
               (5) Transfering data over Bluetooth
             
         
-        ]]>
+        
     </string>
     <string name="none_found">No devices found</string>
     <string name="none_paired">You have no friends :(</string>

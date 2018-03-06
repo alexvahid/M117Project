@@ -41,15 +41,14 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.content.IntentFilter;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.net.wifi.WifiManager;
-import android.net.wifi.WifiInfo;
 
 import com.example.android.common.logger.Log;
-import java.util.ArrayList;
-import java.util.List;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 
 /**
@@ -94,14 +93,30 @@ public class BluetoothChatFragment extends Fragment {
      */
     private BluetoothChatService mChatService = null;
 
+    private String zohar = "B4:BF:F6:CE:6F:A3";
+    private String michael = "D0:51:62:42:D8:B6";
+    private String phone26 = "44:80:EB:35:A2:E2";
+
     public void bootMe() {
         //look for other phones
         String address = android.provider.Settings.Secure.getString(getActivity().getContentResolver(), "bluetooth_address");
-        BluetoothDevice device = null;
-        //if (!address.equals("44:80:EB:35:A2:E2")) {
-        //device = mBluetoothAdapter.getRemoteDevice("44:80:EB:35:A2:E3");
-        //mChatService.connect(device, false);
-        //}
+
+        //connect to phone 26
+        BluetoothDevice device1 = mBluetoothAdapter.getRemoteDevice(phone26);
+        mChatService.connect(device1, false);
+
+
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            public void run() {
+                AdHocMessage adHocMessage = new AdHocMessage();
+                adHocMessage.macAddress = michael;
+                adHocMessage.message = "hello world!";
+
+                sendAdHocMessage(adHocMessage, true);
+            }
+        }, 5000);
+
     }
 
 
@@ -132,7 +147,7 @@ public class BluetoothChatFragment extends Fragment {
             // Otherwise, setup the chat session
         } else if (mChatService == null) {
             setupChat();
-            bootMe();
+            //bootMe();
         }
     }
 
@@ -216,6 +231,26 @@ public class BluetoothChatFragment extends Fragment {
             discoverableIntent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 300);
             startActivity(discoverableIntent);
         }
+    }
+
+    private void sendAdHocMessage(AdHocMessage adHocMessage, Boolean showMessage) {
+
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        ObjectOutputStream os = null;
+        try {
+            os = new ObjectOutputStream(out);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            os.writeObject(adHocMessage);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        if (showMessage) mHandler.obtainMessage(Constants.MESSAGE_WRITE, -1, -1, adHocMessage.message.getBytes()).sendToTarget();
+
+        mChatService.write(out.toByteArray());
     }
 
     /**
@@ -321,10 +356,45 @@ public class BluetoothChatFragment extends Fragment {
                     mConversationArrayAdapter.add("Me:  " + writeMessage);
                     break;
                 case Constants.MESSAGE_READ:
-                    byte[] readBuf = (byte[]) msg.obj;
+                    final byte[] readBuf = (byte[]) msg.obj;
                     // construct a string from the valid bytes in the buffer
-                    String readMessage = new String(readBuf, 0, msg.arg1);
-                    mConversationArrayAdapter.add(mConnectedDeviceName + ":  " + readMessage);
+                    ByteArrayInputStream in = new ByteArrayInputStream(readBuf);
+                    ObjectInputStream is = null;
+                    try {
+                        is = new ObjectInputStream(in);
+                        try {
+                            final AdHocMessage adHocMessage = (AdHocMessage)is.readObject();
+                            String thisAddress = android.provider.Settings.Secure.getString(getActivity().getContentResolver(), "bluetooth_address");
+                            if (adHocMessage.macAddress.equals(thisAddress)) {
+                                mConversationArrayAdapter.add("ad hoc:  " + adHocMessage.message);
+                                mChatService.stop();
+                                mChatService.start();
+                            } else {
+                                mChatService.stop();
+                                mChatService.start();
+
+                                Handler handler = new Handler();
+                                handler.postDelayed(new Runnable() {
+                                    public void run() {
+                                        //connect to dest
+                                        BluetoothDevice device = mBluetoothAdapter.getRemoteDevice(adHocMessage.macAddress);
+                                        mChatService.connect(device, false);
+                                    }
+                                }, 1000);
+                                Handler handler2 = new Handler();
+                                handler2.postDelayed(new Runnable() {
+                                    public void run() {
+                                        sendAdHocMessage(adHocMessage, false);
+                                    }
+                                }, 5000);
+
+                            }
+                        } catch (ClassNotFoundException e) {
+                            e.printStackTrace();
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                     break;
                 case Constants.MESSAGE_DEVICE_NAME:
                     // save the connected device's name

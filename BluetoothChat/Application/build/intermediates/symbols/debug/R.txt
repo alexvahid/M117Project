@@ -634,7 +634,6 @@ int id listMode 0x7f0a0009
 int id list_item 0x7f0a003a
 int id log_fragment 0x7f0a006b
 int id media_actions 0x7f0a0075
-int id menu_toggle_log 0x7f0a0089
 int id middle 0x7f0a002d
 int id multiply 0x7f0a0014
 int id never 0x7f0a0031

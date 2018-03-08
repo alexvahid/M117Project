@@ -2176,7 +2176,7 @@ containing a value of this type.
         public static final int decor_content_parent=0x7f0a0052;
         public static final int default_activity_button=0x7f0a0039;
         public static final int disableHome=0x7f0a000c;
-        public static final int discoverable=0x7f0a0088;
+        public static final int discoverable=0x7f0a0087;
         public static final int edit_query=0x7f0a0056;
         public static final int edit_text_out=0x7f0a006d;
         public static final int end=0x7f0a0027;
@@ -2195,7 +2195,7 @@ containing a value of this type.
         public static final int image=0x7f0a0038;
         public static final int in=0x7f0a006c;
         public static final int info=0x7f0a007c;
-        public static final int insecure_connect_scan=0x7f0a0087;
+        public static final int insecure_connect_scan=0x7f0a0086;
         public static final int left=0x7f0a001b;
         public static final int line1=0x7f0a0081;
         public static final int line3=0x7f0a0083;
@@ -2237,7 +2237,6 @@ containing a value of this type.
         public static final int search_plate=0x7f0a005c;
         public static final int search_src_text=0x7f0a005d;
         public static final int search_voice_btn=0x7f0a0061;
-        public static final int secure_connect_scan=0x7f0a0086;
         public static final int select_dialog_listview=0x7f0a0062;
         public static final int shortcut=0x7f0a004c;
         public static final int showCustom=0x7f0a000f;

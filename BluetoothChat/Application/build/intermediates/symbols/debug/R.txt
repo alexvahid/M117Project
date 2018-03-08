@@ -607,7 +607,7 @@ int id customPanel 0x7f0a0048
 int id decor_content_parent 0x7f0a0052
 int id default_activity_button 0x7f0a0039
 int id disableHome 0x7f0a000c
-int id discoverable 0x7f0a0088
+int id discoverable 0x7f0a0087
 int id edit_query 0x7f0a0056
 int id edit_text_out 0x7f0a006d
 int id end 0x7f0a0027
@@ -626,7 +626,7 @@ int id ifRoom 0x7f0a0030
 int id image 0x7f0a0038
 int id in 0x7f0a006c
 int id info 0x7f0a007c
-int id insecure_connect_scan 0x7f0a0087
+int id insecure_connect_scan 0x7f0a0086
 int id left 0x7f0a001b
 int id line1 0x7f0a0081
 int id line3 0x7f0a0083
@@ -668,7 +668,6 @@ int id search_mag_icon 0x7f0a005b
 int id search_plate 0x7f0a005c
 int id search_src_text 0x7f0a005d
 int id search_voice_btn 0x7f0a0061
-int id secure_connect_scan 0x7f0a0086
 int id select_dialog_listview 0x7f0a0062
 int id shortcut 0x7f0a004c
 int id showCustom 0x7f0a000f

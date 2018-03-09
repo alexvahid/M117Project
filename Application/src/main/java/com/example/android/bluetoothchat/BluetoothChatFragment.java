@@ -54,6 +54,8 @@ import java.util.List;
 public class BluetoothChatFragment extends Fragment {
 
     private static final String TAG = "BluetoothChatFragment";
+    private static int flag = 0;
+    private static String deviceName= "";
 
     // Intent request codes
     private static final int REQUEST_CONNECT_DEVICE_SECURE = 1;
@@ -65,6 +67,7 @@ public class BluetoothChatFragment extends Fragment {
     private EditText mOutEditText;
     private Button mSendButton;
 
+    private ListView mdevices;
 
     private ArrayList<String> mConnectDevices;
     /**
@@ -85,10 +88,15 @@ public class BluetoothChatFragment extends Fragment {
      */
     private BluetoothAdapter mBluetoothAdapter = null;
 
+    ArrayList<String> fuckthis;
+    private ArrayAdapter deviceListArrayAdapter;
     /**
      * Member object for the chat services
      */
     static public ArrayList<BluetoothChatService> mChatServices= new ArrayList<BluetoothChatService>();
+
+    static public ArrayList<BluetoothChatService> mChatServices2= new ArrayList<BluetoothChatService>();
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -159,7 +167,7 @@ public class BluetoothChatFragment extends Fragment {
         mConversationView = (ListView) view.findViewById(R.id.in);
         mOutEditText = (EditText) view.findViewById(R.id.edit_text_out);
         mSendButton = (Button) view.findViewById(R.id.button_send);
-        //devices = (ListView) view.findViewById(R.id.ds);
+        mdevices = (ListView) view.findViewById(R.id.troll);
     }
 
     /**
@@ -172,6 +180,8 @@ public class BluetoothChatFragment extends Fragment {
         mConversationArrayAdapter = new ArrayAdapter<String>(getActivity(), R.layout.message);
 
         mConversationView.setAdapter(mConversationArrayAdapter);
+
+        //mdevices.setAdapter(deviceListArrayAdapter);
 
         // Initialize the compose field with a listener for the return key
         mOutEditText.setOnEditorActionListener(mWriteListener);
@@ -225,8 +235,12 @@ public class BluetoothChatFragment extends Fragment {
         if (message.length() == 0) return;
         //byte[] send = message.getBytes();
         int i= 0;
+        flag = 0;
         for(final BluetoothChatService chatService : mChatServices) {
             // Check that we're actually connected before trying anything
+            if(chatService.getDevice().getName().equals(deviceName)){
+                break;
+            }
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -329,6 +343,10 @@ public class BluetoothChatFragment extends Fragment {
                     }
                     break;
                 case Constants.MESSAGE_WRITE:
+                    flag = flag + 1;
+                    if (flag != mChatServices.size()){
+                        break;
+                    }
                     byte[] writeBuf = (byte[]) msg.obj;
                     String writeMessage = new String(writeBuf);
                     name = mChatServices.get(msg.arg2).getDevice().getName();
@@ -340,6 +358,9 @@ public class BluetoothChatFragment extends Fragment {
                     String readMessage = new String(readBuf, 0, msg.arg1);
                     name = mChatServices.get(msg.arg2).getDevice().getName();
                     mConversationArrayAdapter.add(name + ":  " + readMessage);
+                    deviceName = name;
+                    helper(readMessage);
+                    deviceName = "";
                     break;
                 case Constants.MESSAGE_DEVICE_NAME:
                     // save the connected device's name
@@ -358,7 +379,9 @@ public class BluetoothChatFragment extends Fragment {
             }
         }
     };
-
+    public void helper(String s){
+        sendMessage(s);
+    }
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
             case REQUEST_CONNECT_DEVICE_SECURE:
@@ -424,6 +447,7 @@ public class BluetoothChatFragment extends Fragment {
                 public void run() {
                     BluetoothChatService chatService= new BluetoothChatService(getActivity(), mHandler, mBluetoothAdapter.getRemoteDevice(address));
                     mChatServices.add(chatService);
+                    fuckthis.add(chatService.getDevice().getName());
                     if(chatService.connect(false))
                         ;
                 }
@@ -460,6 +484,12 @@ public class BluetoothChatFragment extends Fragment {
             case R.id.discoverable: {
                 // Ensure this device is discoverable by others
                 ensureDiscoverable();
+                return true;
+            }
+            case R.id.connected:{
+                //deviceListArrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_expandable_list_item_1,);
+                //mdevices.setAdapter(deviceListArrayAdapter);
+                //mdevices.setVisibility(View.VISIBLE);
                 return true;
             }
         }

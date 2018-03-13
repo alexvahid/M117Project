@@ -67,6 +67,12 @@ public class DeviceListActivity extends Activity {
      */
     private ArrayAdapter<String> mNewDevicesArrayAdapter;
 
+    private String zohar = "B4:BF:F6:CE:6F:A3";
+    private String michael = "D0:51:62:42:D8:B6";
+    private String phone25 = "44:80:EB:35:A5:A9";
+    private String phone26 = "44:80:EB:35:A2:E2";
+    private String phone38 = "44:80:EB:35:A3:9B";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -127,14 +133,21 @@ public class DeviceListActivity extends Activity {
             String noDevices = getResources().getText(R.string.none_paired).toString();
             pairedDevicesArrayAdapter.add(noDevices);
         }*/
+
+
         String address = android.provider.Settings.Secure.getString(getContentResolver(), "bluetooth_address");
         BluetoothDevice device = null;
-        if (!address.equals("44:80:EB:35:A2:E2")) {
-            device = mBtAdapter.getRemoteDevice("44:80:EB:35:A2:E2");
+        if (!address.equals(phone25)) {
+            device = mBtAdapter.getRemoteDevice(phone25);
+            pairedDevicesArrayAdapter.add("Phone 25\n" + device.getAddress());
+        }
+        if (!address.equals(phone26)) {
+            device = mBtAdapter.getRemoteDevice(phone26);
             pairedDevicesArrayAdapter.add("Phone 26\n" + device.getAddress());
-        }if (!address.equals("B4:BF:F6:CE:6F:A3")) {
-            device = mBtAdapter.getRemoteDevice("B4:BF:F6:CE:6F:A3");
-            pairedDevicesArrayAdapter.add("Phone 26\n" + device.getAddress());
+        }
+        if (!address.equals(phone38)) {
+            device = mBtAdapter.getRemoteDevice(phone38);
+            pairedDevicesArrayAdapter.add("Phone 38\n" + device.getAddress());
         }
     }
 

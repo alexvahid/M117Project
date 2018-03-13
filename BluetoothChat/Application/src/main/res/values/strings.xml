@@ -37,5 +37,6 @@
     <string name="secure_connect">Connect a device - Secure</string>
     <string name="insecure_connect">Connect to chat!</string>
     <string name="discoverable">Make discoverable</string>
+    <string name="stop_discoverable">Stop discoverable</string>
 
 </resources>

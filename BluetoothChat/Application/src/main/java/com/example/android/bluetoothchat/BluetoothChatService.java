@@ -24,11 +24,16 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.SystemClock;
 
 import com.example.android.common.logger.Log;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.util.UUID;
 
@@ -59,7 +64,7 @@ public class BluetoothChatService {
     private AcceptThread mInsecureAcceptThread;
     private ConnectThread mConnectThread;
     private ConnectedThread mConnectedThread;
-    private int mState;
+    public int mState;
     private int mNewState;
 
     // Constants that indicate the current connection state
@@ -67,6 +72,49 @@ public class BluetoothChatService {
     public static final int STATE_LISTEN = 1;     // now listening for incoming connections
     public static final int STATE_CONNECTING = 2; // now initiating an outgoing connection
     public static final int STATE_CONNECTED = 3;  // now connected to a remote device
+
+    public byte[] queuedAdHocMessage = null;
+
+    public AdHocMessage adHocFromBytes(byte[] bytes) {
+        ByteArrayInputStream in = new ByteArrayInputStream(bytes);
+        ObjectInputStream is = null;
+        try {
+            is = new ObjectInputStream(in);
+            try {
+                return (AdHocMessage)is.readObject();
+
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public byte[] adHocToBytes(AdHocMessage adHocMessage) {
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        ObjectOutputStream os = null;
+        try {
+            os = new ObjectOutputStream(out);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            os.writeObject(adHocMessage);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return out.toByteArray();
+    }
+
+
+    public void queueAdHocMessage(AdHocMessage adHocMessage) {
+
+        queuedAdHocMessage = adHocToBytes(adHocMessage);
+
+    }
 
     /**
      * Constructor. Prepares a new BluetoothChat session.
@@ -206,6 +254,12 @@ public class BluetoothChatService {
         mHandler.sendMessage(msg);
         // Update UI title
         updateUserInterfaceTitle();
+
+        if(queuedAdHocMessage != null) {
+            SystemClock.sleep(250);
+            write(queuedAdHocMessage);
+            queuedAdHocMessage = null;
+        }
     }
 
     /**
@@ -233,6 +287,7 @@ public class BluetoothChatService {
             mInsecureAcceptThread.cancel();
             mInsecureAcceptThread = null;
         }
+
         mState = STATE_NONE;
         // Update UI title
         updateUserInterfaceTitle();
@@ -259,7 +314,7 @@ public class BluetoothChatService {
     /**
      * Indicate that the connection attempt failed and notify the UI Activity.
      */
-    private void connectionFailed() {
+    private void connectionFailed(final BluetoothDevice device) {
         // Send a failure message back to the Activity
         Message msg = mHandler.obtainMessage(Constants.MESSAGE_TOAST);
         Bundle bundle = new Bundle();
@@ -273,6 +328,10 @@ public class BluetoothChatService {
 
         // Start the service over to restart listening mode
         BluetoothChatService.this.start();
+
+        //SystemClock.sleep(2000);
+        //connect(device, false);
+
     }
 
     /**
@@ -281,10 +340,10 @@ public class BluetoothChatService {
     public void connectionLost() {
         // Send a failure message back to the Activity
         Message msg = mHandler.obtainMessage(Constants.MESSAGE_TOAST);
-        Bundle bundle = new Bundle();
-        bundle.putString(Constants.TOAST, "Device connection was lost");
-        msg.setData(bundle);
-        mHandler.sendMessage(msg);
+        //Bundle bundle = new Bundle();
+        //bundle.putString(Constants.TOAST, "Device connection was lost");
+        //msg.setData(bundle);
+        //mHandler.sendMessage(msg);
 
         mState = STATE_NONE;
         // Update UI title
@@ -432,7 +491,7 @@ public class BluetoothChatService {
                     Log.e(TAG, "unable to close() " + mSocketType +
                             " socket during connection failure", e2);
                 }
-                connectionFailed();
+                connectionFailed(mmDevice);
                 return;
             }
 
@@ -512,8 +571,6 @@ public class BluetoothChatService {
             try {
                 mmOutStream.write(buffer);
 
-                // Share the sent message back to the UI Activity
-                //mHandler.obtainMessage(Constants.MESSAGE_WRITE, -1, -1, buffer).sendToTarget();
             } catch (IOException e) {
                 Log.e(TAG, "Exception during write", e);
             }

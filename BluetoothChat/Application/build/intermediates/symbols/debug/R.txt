@@ -634,7 +634,7 @@ int id listMode 0x7f0a0009
 int id list_item 0x7f0a003a
 int id log_fragment 0x7f0a006b
 int id media_actions 0x7f0a0075
-int id menu_toggle_log 0x7f0a0089
+int id menu_toggle_log 0x7f0a008a
 int id middle 0x7f0a002d
 int id multiply 0x7f0a0014
 int id never 0x7f0a0031
@@ -682,6 +682,7 @@ int id src_in 0x7f0a0017
 int id src_over 0x7f0a0018
 int id start 0x7f0a002b
 int id status_bar_latest_event_content 0x7f0a0074
+int id stop_discoverable 0x7f0a0089
 int id submenuarrow 0x7f0a004e
 int id submit_area 0x7f0a005f
 int id tabMode 0x7f0a000b
@@ -804,11 +805,12 @@ int string secure_connect 0x7f05002d
 int string select_device 0x7f05002e
 int string send 0x7f05002f
 int string status_bar_notification_info_overflow 0x7f050014
-int string title_connected_to 0x7f050030
-int string title_connecting 0x7f050031
-int string title_not_connected 0x7f050032
-int string title_other_devices 0x7f050033
-int string title_paired_devices 0x7f050034
+int string stop_discoverable 0x7f050030
+int string title_connected_to 0x7f050031
+int string title_connecting 0x7f050032
+int string title_not_connected 0x7f050033
+int string title_other_devices 0x7f050034
+int string title_paired_devices 0x7f050035
 int style AlertDialog_AppCompat 0x7f07009b
 int style AlertDialog_AppCompat_Light 0x7f07009c
 int style Animation_AppCompat_Dialog 0x7f07009d

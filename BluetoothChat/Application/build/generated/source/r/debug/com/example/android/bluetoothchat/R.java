@@ -2203,7 +2203,7 @@ containing a value of this type.
         public static final int list_item=0x7f0a003a;
         public static final int log_fragment=0x7f0a006b;
         public static final int media_actions=0x7f0a0075;
-        public static final int menu_toggle_log=0x7f0a0089;
+        public static final int menu_toggle_log=0x7f0a008a;
         public static final int middle=0x7f0a002d;
         public static final int multiply=0x7f0a0014;
         public static final int never=0x7f0a0031;
@@ -2251,6 +2251,7 @@ containing a value of this type.
         public static final int src_over=0x7f0a0018;
         public static final int start=0x7f0a002b;
         public static final int status_bar_latest_event_content=0x7f0a0074;
+        public static final int stop_discoverable=0x7f0a0089;
         public static final int submenuarrow=0x7f0a004e;
         public static final int submit_area=0x7f0a005f;
         public static final int tabMode=0x7f0a000b;
@@ -2381,11 +2382,12 @@ containing a value of this type.
         public static final int select_device=0x7f05002e;
         public static final int send=0x7f05002f;
         public static final int status_bar_notification_info_overflow=0x7f050014;
-        public static final int title_connected_to=0x7f050030;
-        public static final int title_connecting=0x7f050031;
-        public static final int title_not_connected=0x7f050032;
-        public static final int title_other_devices=0x7f050033;
-        public static final int title_paired_devices=0x7f050034;
+        public static final int stop_discoverable=0x7f050030;
+        public static final int title_connected_to=0x7f050031;
+        public static final int title_connecting=0x7f050032;
+        public static final int title_not_connected=0x7f050033;
+        public static final int title_other_devices=0x7f050034;
+        public static final int title_paired_devices=0x7f050035;
     }
     public static final class style {
         public static final int AlertDialog_AppCompat=0x7f07009b;

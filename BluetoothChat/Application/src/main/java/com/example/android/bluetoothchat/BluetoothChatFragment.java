@@ -16,17 +16,25 @@
 
 package com.example.android.bluetoothchat;
 
+import android.Manifest;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.SystemClock;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.text.InputType;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -41,14 +49,25 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.app.AlertDialog;
 
 import com.example.android.common.logger.Log;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+
+import javax.crypto.Cipher;
+import javax.crypto.KeyGenerator;
+import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
+
+import android.util.Base64;
 
 
 /**
@@ -93,29 +112,415 @@ public class BluetoothChatFragment extends Fragment {
      */
     private BluetoothChatService mChatService = null;
 
+    class AddressBookItem {
+
+        AddressBookItem(String name, String secretKey) {
+            this.name = name;
+            this.secretKey = secretKey;
+        }
+
+        String name;
+        String secretKey;
+    }
+    private Map<String, AddressBookItem> addressBook = new HashMap();
+
+    private Map<String, ArrayAdapter<String>> conversations = new HashMap();
+    private String currentConversation = null;
+
     private String zohar = "B4:BF:F6:CE:6F:A3";
     private String michael = "D0:51:62:42:D8:B6";
+    private String phone25 = "44:80:EB:35:A5:A9";
     private String phone26 = "44:80:EB:35:A2:E2";
+    private String phone38 = "44:80:EB:35:A3:9B";
+    private String thisAddress = null;
 
-    public void bootMe() {
-        //look for other phones
-        String address = android.provider.Settings.Secure.getString(getActivity().getContentResolver(), "bluetooth_address");
+    private Map<String, String> routeTable = new HashMap();
+    private Map<String, String> reverseRouteTable = new HashMap();
+    private AdHocMessage queuedAdHocMessage = null;
 
-        //connect to phone 26
-        BluetoothDevice device1 = mBluetoothAdapter.getRemoteDevice(phone26);
-        mChatService.connect(device1, false);
+    private int requestCounter = 0;
+    private int sourceSequence = 0;
+
+    public String encrypt(String plainData, String secretKeyString) throws Exception
+    {
+        MessageDigest digest = MessageDigest.getInstance("SHA-256");
+        byte[] hash = digest.digest(secretKeyString.getBytes());
+        SecretKey secretKey = new SecretKeySpec(hash, 0, hash.length, "AES");
 
 
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            public void run() {
-                AdHocMessage adHocMessage = new AdHocMessage();
-                adHocMessage.macAddress = michael;
-                adHocMessage.message = "hello world!";
+        Cipher aesCipher = Cipher.getInstance("AES");
+        aesCipher.init(Cipher.ENCRYPT_MODE, secretKey);
+        byte[] byteDataToEncrypt = plainData.getBytes();
+        byte[] byteCipherText = aesCipher.doFinal(byteDataToEncrypt);
+        return Base64.encodeToString(byteCipherText, Base64.DEFAULT);
+    }
 
-                sendAdHocMessage(adHocMessage, true);
+    public String decrypt(String cipherData, String secretKeyString) throws Exception
+    {
+        MessageDigest digest = MessageDigest.getInstance("SHA-256");
+        byte[] hash = digest.digest(secretKeyString.getBytes());
+        SecretKey secretKey = new SecretKeySpec(hash, 0, hash.length, "AES");
+
+        byte[] data = Base64.decode(cipherData, Base64.DEFAULT);
+        Cipher aesCipher = Cipher.getInstance("AES");
+        aesCipher.init(Cipher.DECRYPT_MODE, secretKey);
+        byte[] plainData = aesCipher.doFinal(data);
+        return new String(plainData);
+    }
+
+    public AdHocMessage createAdHocMessage(String message, String destinationAddress) {
+
+        try {
+            message = encrypt(message, addressBook.get(destinationAddress).secretKey);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        AdHocMessage adHocMessage = new AdHocMessage();
+
+        adHocMessage.destinationAddress = destinationAddress;
+        adHocMessage.sourceAddress = thisAddress;
+        adHocMessage.message = message;
+        adHocMessage.type = AdHocMessage.Type.ADHOC_MESSAGE;
+
+        return adHocMessage;
+    }
+
+    public AdHocMessage createRouteReply(AdHocMessage routeRequest) {
+
+        AdHocMessage routeReply = new AdHocMessage();
+
+        routeReply.destinationAddress = routeRequest.sourceAddress;
+        routeReply.sourceAddress = routeRequest.destinationAddress;
+        routeReply.passingAddresses.add(thisAddress);
+        routeReply.message = "route_reply";
+        routeReply.requestID = routeRequest.requestID;
+        routeReply.type = AdHocMessage.Type.ROUTE_REPLY;
+        routeReply.hopCount = routeRequest.hopCount;
+        routeReply.destinationSequenceNumber = sourceSequence;
+
+        return routeReply;
+    }
+
+    public AdHocMessage createRouteRequest(String destinationAddress) {
+        //create route request
+        AdHocMessage routeRequest = new AdHocMessage();
+
+        routeRequest.destinationAddress = destinationAddress;
+        routeRequest.sourceAddress = thisAddress;
+        routeRequest.passingAddresses.add(thisAddress);
+        routeRequest.message = "route_request";
+        routeRequest.requestID = ++requestCounter;
+        routeRequest.type = AdHocMessage.Type.ROUTE_REQUEST;
+        routeRequest.destinationSequenceNumber = 0;
+        routeRequest.sourceSequenceNumber = ++sourceSequence;
+        routeRequest.hopCount = 0;
+
+        return routeRequest;
+    }
+
+    //figure out who to connect to to propagate this message
+    public void sendAdHocMessage(AdHocMessage adHocMessage) {
+
+        String addressToConnect = null;
+
+        int sleepVal = 1500;
+
+        //end the connection
+        mChatService.stop();
+        mChatService.start();
+
+        //if this is the intended destination of the message
+        if (adHocMessage.destinationAddress.equals(thisAddress)) {
+
+            //if receiving a route request, create a route reply
+            if (adHocMessage.type == AdHocMessage.Type.ROUTE_REQUEST) {
+
+                //increment source sequence
+                ++sourceSequence;
+
+                //don't create a route reply if this isn't the first route request we've seen
+                if (reverseRouteTable.containsKey(adHocMessage.sourceAddress + adHocMessage.requestID.toString())) {
+                    Toast.makeText(getActivity(), "ROUTE_REQUEST ALREADY SEEN", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                //create route reply and update route tables
+                else {
+                    reverseRouteTable.put(adHocMessage.sourceAddress + adHocMessage.requestID.toString(), adHocMessage.passingAddresses.get(adHocMessage.passingAddresses.size()-1));
+                    routeTable.put(adHocMessage.sourceAddress, adHocMessage.passingAddresses.get(adHocMessage.passingAddresses.size()-1));
+                }
+
+                Toast.makeText(getActivity(), "CREATING ROUTE_REPLY", Toast.LENGTH_SHORT).show();
+                AdHocMessage routeReply = createRouteReply(adHocMessage);
+                sendAdHocMessage(routeReply);
+                return;
             }
-        }, 5000);
+
+            //if receiving a route reply, send the queued message
+            else if (adHocMessage.type == AdHocMessage.Type.ROUTE_REPLY) {
+
+                //add info to route table and send the actual message
+                routeTable.put(adHocMessage.sourceAddress, adHocMessage.passingAddresses.get(adHocMessage.passingAddresses.size()-1));
+
+                SystemClock.sleep(sleepVal);
+                Toast.makeText(getActivity(), "PATH OBTAINED, SENDING MESSAGE", Toast.LENGTH_SHORT).show();
+                sendAdHocMessage(queuedAdHocMessage);
+                queuedAdHocMessage = null;
+                return;
+            }
+
+            //if receiving a message
+            else {
+
+                AddressBookItem abi = addressBook.get(adHocMessage.sourceAddress);
+
+                SystemClock.sleep(sleepVal);
+                Toast.makeText(getActivity(), "NEW MESSAGE FROM " + abi.name, Toast.LENGTH_SHORT).show();
+
+                try {
+                    adHocMessage.message = decrypt(adHocMessage.message, abi.secretKey);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                String messageToDisplay = abi.name + ":  " + adHocMessage.message;
+
+                if (currentConversation != null && currentConversation.equals(adHocMessage.sourceAddress)) {
+                    mConversationArrayAdapter.add(messageToDisplay);
+                } else {
+                    if (conversations.containsKey(adHocMessage.sourceAddress)) {
+                        conversations.get(adHocMessage.sourceAddress).add(messageToDisplay);
+
+                    } else {
+                        ArrayAdapter<String> newAdapter = new ArrayAdapter<String>(getActivity(), R.layout.message);
+                        newAdapter.add(messageToDisplay);
+                        conversations.put(adHocMessage.sourceAddress, newAdapter);
+                    }
+                }
+
+                return;
+            }
+        }
+
+        //if propagating a route request
+        if (adHocMessage.type == AdHocMessage.Type.ROUTE_REQUEST) {
+
+            Toast.makeText(getActivity(), "PROPAGATING ROUTE_REQUEST", Toast.LENGTH_SHORT).show();
+
+            //increment source sequence counter
+            ++sourceSequence;
+
+            //STEP 1. source address and request ID are looked up in the local history table
+            if (reverseRouteTable.containsKey(adHocMessage.sourceAddress + adHocMessage.requestID.toString())) {
+                return;
+            }
+
+            //STEP 2. destinatation is looked up in the routing table
+            if (routeTable.containsKey(adHocMessage.destinationAddress)) {
+
+                //send a route reply back
+                addressToConnect = adHocMessage.passingAddresses.get(adHocMessage.passingAddresses.size()-1);
+
+                reverseRouteTable.put(adHocMessage.sourceAddress + adHocMessage.requestID.toString(), adHocMessage.passingAddresses.get(adHocMessage.passingAddresses.size()-1));
+                routeTable.put(adHocMessage.sourceAddress, adHocMessage.passingAddresses.get(adHocMessage.passingAddresses.size()-1));
+
+                AdHocMessage routeReply = createRouteReply(adHocMessage);
+
+                //queue and connect
+                mChatService.queueAdHocMessage(routeReply);
+                BluetoothDevice device = mBluetoothAdapter.getRemoteDevice(addressToConnect);
+                mChatService.connect(device, false);
+
+                return;
+            }
+
+            //STEP 3. no route found, increment hop counter
+            adHocMessage.hopCount++;
+
+
+            //update reverse route table
+            reverseRouteTable.put(adHocMessage.sourceAddress + adHocMessage.requestID.toString(), adHocMessage.passingAddresses.get(adHocMessage.passingAddresses.size()-1));
+
+            //make sure we don't send the route request back to its originator
+            passingAddresses = adHocMessage.passingAddresses;
+
+            //update passing address
+            adHocMessage.passingAddresses.add(thisAddress);
+
+            propagateRouteRequest(adHocMessage);
+
+            return;
+        }
+
+        //if propagating a route reply
+        else if (adHocMessage.type == AdHocMessage.Type.ROUTE_REPLY) {
+
+            SystemClock.sleep(sleepVal);
+            Toast.makeText(getActivity(), "PROPAGATING ROUTE_REPLY", Toast.LENGTH_SHORT).show();
+
+            //add to route table
+            routeTable.put(adHocMessage.sourceAddress, adHocMessage.passingAddresses.get(adHocMessage.passingAddresses.size()-1));
+
+            //figure out where to connect next
+            addressToConnect = reverseRouteTable.get(adHocMessage.destinationAddress + adHocMessage.requestID.toString());
+
+            //add other direction to route table
+            routeTable.put(adHocMessage.destinationAddress, addressToConnect);
+
+            //update passing address
+            adHocMessage.passingAddresses.add(thisAddress);
+
+            //queue and connect
+            mChatService.queueAdHocMessage(adHocMessage);
+            BluetoothDevice device = mBluetoothAdapter.getRemoteDevice(addressToConnect);
+            mChatService.connect(device, false);
+
+            return;
+        }
+
+        //if route to the destination is already known
+        if (routeTable.containsKey(adHocMessage.destinationAddress)) {
+
+            SystemClock.sleep(sleepVal);
+            Toast.makeText(getActivity(), "PASSING MESSAGE: " + adHocMessage.message, Toast.LENGTH_SHORT).show();
+
+            addressToConnect = routeTable.get(adHocMessage.destinationAddress);
+
+            //queue and connect
+            mChatService.queueAdHocMessage(adHocMessage);
+            BluetoothDevice device = mBluetoothAdapter.getRemoteDevice(addressToConnect);
+            mChatService.connect(device, false);
+
+        }
+
+        //don't know the destination, send route request
+        else {
+
+            Toast.makeText(getActivity(), "CREATING ROUTE_REQUEST", Toast.LENGTH_SHORT).show();
+
+            //remember this message for later
+            queuedAdHocMessage = adHocMessage;
+
+            AdHocMessage routeRequest = createRouteRequest(adHocMessage.destinationAddress);
+
+            propagateRouteRequest(routeRequest);
+        }
+    }
+
+    public void propagateRouteRequest(AdHocMessage routeRequest) {
+
+        //queue the route request and send when connected
+        mChatService.queueAdHocMessage(routeRequest);
+
+        IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
+        getActivity().registerReceiver(sendRouteRequest, filter);
+
+        int MY_PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION = 1;
+        ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, MY_PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION);
+
+        // If we're already discovering, stop it
+        if (mBluetoothAdapter.isDiscovering()) {
+            mBluetoothAdapter.cancelDiscovery();
+        }
+
+        // Request discover from BluetoothAdapter
+        mBluetoothAdapter.startDiscovery();
+    }
+
+    List<String> passingAddresses = null;
+    private final BroadcastReceiver sendRouteRequest = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+
+            // When discovery finds a device
+            if (BluetoothDevice.ACTION_FOUND.equals(action)) {
+                //connect to the device and send the message
+                BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+                if (device.getAddress().equals(phone26)
+                        || device.getAddress().equals(phone38)
+                        || device.getAddress().equals(phone25)
+                        || device.getAddress().equals(zohar)
+                        || device.getAddress().equals(michael)) {
+
+                    //dont send the route request back to where it came from
+                    if (passingAddresses == null || !passingAddresses.contains(device.getAddress())) {
+                        mChatService.connect(device, false);
+                        mBluetoothAdapter.cancelDiscovery();
+                        getActivity().unregisterReceiver(sendRouteRequest);
+                    }
+                }
+            }
+        }
+    };
+
+    private void promptForName(final String address, final String secretKeyString) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("Enter A Name For This Device");
+
+        // Set up the input
+        final EditText input = new EditText(getContext());
+
+        input.setInputType(InputType.TYPE_CLASS_TEXT);
+        builder.setView(input);
+
+        // Set up the buttons
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                addressBook.put(address, new AddressBookItem(input.getText().toString(), secretKeyString));
+                adHocConnectDevice(address);
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        builder.show();
+
+    }
+
+    private void adHocConnectDevice(final String address) {
+
+        // Get the BluetoothDevice object
+        BluetoothDevice device = mBluetoothAdapter.getRemoteDevice(address);
+
+        if (!addressBook.containsKey(address)) {
+            mChatService.connect(device, false);
+
+            String secretKeyString = null;
+            try {
+                SecretKey secretKey = KeyGenerator.getInstance("AES").generateKey();
+                secretKeyString = Base64.encodeToString(secretKey.getEncoded(), Base64.DEFAULT);
+            } catch (NoSuchAlgorithmException e) {
+                e.printStackTrace();
+            }
+
+
+
+            AdHocMessage message = new AdHocMessage();
+            message.type = AdHocMessage.Type.PROMPT;
+            message.sourceAddress = thisAddress;
+            message.message = secretKeyString;
+            mChatService.queueAdHocMessage(message);
+            promptForName(address,secretKeyString);
+
+        } else {
+
+            if (conversations.containsKey(address)) {
+                mConversationArrayAdapter = conversations.get(address);
+
+            } else {
+                mConversationArrayAdapter = new ArrayAdapter<String>(getActivity(), R.layout.message);
+                conversations.put(address, mConversationArrayAdapter);
+            }
+            mConversationView.setAdapter(mConversationArrayAdapter);
+            currentConversation = address;
+            setStatus("Connected to " + addressBook.get(address).name);
+        }
 
     }
 
@@ -132,7 +537,9 @@ public class BluetoothChatFragment extends Fragment {
             FragmentActivity activity = getActivity();
             Toast.makeText(activity, "Bluetooth is not available", Toast.LENGTH_LONG).show();
             activity.finish();
+
         }
+
     }
 
 
@@ -147,8 +554,17 @@ public class BluetoothChatFragment extends Fragment {
             // Otherwise, setup the chat session
         } else if (mChatService == null) {
             setupChat();
-            //bootMe();
         }
+
+        Intent discoverableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
+        discoverableIntent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 900);
+        startActivity(discoverableIntent);
+
+        thisAddress = android.provider.Settings.Secure.getString(getActivity().getContentResolver(), "bluetooth_address");
+
+        addressBook.put(phone25, new AddressBookItem("Phone 25","hoopla"));
+        addressBook.put(phone26, new AddressBookItem("Phone 26","hoopla"));
+        addressBook.put(phone38, new AddressBookItem("Phone 38","hoopla"));
     }
 
     @Override
@@ -210,7 +626,19 @@ public class BluetoothChatFragment extends Fragment {
                 if (null != view) {
                     TextView textView = (TextView) view.findViewById(R.id.edit_text_out);
                     String message = textView.getText().toString();
-                    sendMessage(message);
+
+                    if (conversations.isEmpty()) {
+                        Toast.makeText(getActivity(), R.string.not_connected, Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+
+                    mOutStringBuffer.setLength(0);
+                    mOutEditText.setText(mOutStringBuffer);
+                    mConversationArrayAdapter.add("Me: " + message);
+
+                    AdHocMessage adHocMessage = createAdHocMessage(message, currentConversation);
+                    sendAdHocMessage(adHocMessage);
                 }
             }
         });
@@ -220,6 +648,8 @@ public class BluetoothChatFragment extends Fragment {
 
         // Initialize the buffer for outgoing messages
         mOutStringBuffer = new StringBuffer("");
+
+        setStatus("Choose a contact to start");
     }
 
     /**
@@ -233,24 +663,12 @@ public class BluetoothChatFragment extends Fragment {
         }
     }
 
-    private void sendAdHocMessage(AdHocMessage adHocMessage, Boolean showMessage) {
-
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-        ObjectOutputStream os = null;
-        try {
-            os = new ObjectOutputStream(out);
-        } catch (IOException e) {
-            e.printStackTrace();
+    private void stopDiscoverable() {
+        if (mBluetoothAdapter.getScanMode() == BluetoothAdapter.SCAN_MODE_CONNECTABLE_DISCOVERABLE) {
+            Intent discoverableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
+            discoverableIntent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 1);
+            startActivity(discoverableIntent);
         }
-        try {
-            os.writeObject(adHocMessage);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        if (showMessage) mHandler.obtainMessage(Constants.MESSAGE_WRITE, -1, -1, adHocMessage.message.getBytes()).sendToTarget();
-
-        mChatService.write(out.toByteArray());
     }
 
     /**
@@ -337,15 +755,15 @@ public class BluetoothChatFragment extends Fragment {
                 case Constants.MESSAGE_STATE_CHANGE:
                     switch (msg.arg1) {
                         case BluetoothChatService.STATE_CONNECTED:
-                            setStatus(getString(R.string.title_connected_to, mConnectedDeviceName));
-                            mConversationArrayAdapter.clear();
+                            //setStatus(getString(R.string.title_connected_to, mConnectedDeviceName));
+                            //mConversationArrayAdapter.clear();
                             break;
                         case BluetoothChatService.STATE_CONNECTING:
-                            setStatus(R.string.title_connecting);
+                            //setStatus(R.string.title_connecting);
                             break;
                         case BluetoothChatService.STATE_LISTEN:
                         case BluetoothChatService.STATE_NONE:
-                            setStatus(R.string.title_not_connected);
+                            //setStatus(R.string.title_not_connected);
                             break;
                     }
                     break;
@@ -356,58 +774,40 @@ public class BluetoothChatFragment extends Fragment {
                     mConversationArrayAdapter.add("Me:  " + writeMessage);
                     break;
                 case Constants.MESSAGE_READ:
+
+                    //read the buffer
                     final byte[] readBuf = (byte[]) msg.obj;
-                    // construct a string from the valid bytes in the buffer
-                    ByteArrayInputStream in = new ByteArrayInputStream(readBuf);
-                    ObjectInputStream is = null;
-                    try {
-                        is = new ObjectInputStream(in);
-                        try {
-                            final AdHocMessage adHocMessage = (AdHocMessage)is.readObject();
-                            String thisAddress = android.provider.Settings.Secure.getString(getActivity().getContentResolver(), "bluetooth_address");
-                            if (adHocMessage.macAddress.equals(thisAddress)) {
-                                mConversationArrayAdapter.add("ad hoc:  " + adHocMessage.message);
-                                mChatService.stop();
-                                mChatService.start();
-                            } else {
-                                mChatService.stop();
-                                mChatService.start();
 
-                                Handler handler = new Handler();
-                                handler.postDelayed(new Runnable() {
-                                    public void run() {
-                                        //connect to dest
-                                        BluetoothDevice device = mBluetoothAdapter.getRemoteDevice(adHocMessage.macAddress);
-                                        mChatService.connect(device, false);
-                                    }
-                                }, 1000);
-                                Handler handler2 = new Handler();
-                                handler2.postDelayed(new Runnable() {
-                                    public void run() {
-                                        sendAdHocMessage(adHocMessage, false);
-                                    }
-                                }, 5000);
+                    //construct an AdHocMessage object from the valid bytes in the buffer
+                    final AdHocMessage adHocMessage = mChatService.adHocFromBytes(readBuf);
 
-                            }
-                        } catch (ClassNotFoundException e) {
-                            e.printStackTrace();
-                        }
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                    if (adHocMessage.type == AdHocMessage.Type.PROMPT) {
+                        mChatService.stop();
+                        mChatService.start();
+                        promptForName(adHocMessage.sourceAddress, adHocMessage.message);
+                    } else {
+
+                        //wait for connections to reset, then pass along the message
+                        Handler handler = new Handler();
+                        handler.postDelayed(new Runnable() {
+                                                public void run() {
+                                                    sendAdHocMessage(adHocMessage);
+                                                }
+                                            }, 10
+                        );
+
                     }
                     break;
                 case Constants.MESSAGE_DEVICE_NAME:
                     // save the connected device's name
                     mConnectedDeviceName = msg.getData().getString(Constants.DEVICE_NAME);
                     if (null != activity) {
-                        Toast.makeText(activity, "Connected to "
-                                + mConnectedDeviceName, Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(activity, "Connected to " + mConnectedDeviceName, Toast.LENGTH_SHORT).show();
                     }
                     break;
                 case Constants.MESSAGE_TOAST:
                     if (null != activity) {
-                        Toast.makeText(activity, msg.getData().getString(Constants.TOAST),
-                                Toast.LENGTH_SHORT).show();
+                        Toast.makeText(activity, msg.getData().getString(Constants.TOAST), Toast.LENGTH_SHORT).show();
                     }
                     break;
             }
@@ -425,7 +825,7 @@ public class BluetoothChatFragment extends Fragment {
             case REQUEST_CONNECT_DEVICE_INSECURE:
                 // When DeviceListActivity returns with a device to connect
                 if (resultCode == Activity.RESULT_OK) {
-                    connectDevice(data, false);
+                    adHocConnectDevice(data.getExtras().getString(DeviceListActivity.EXTRA_DEVICE_ADDRESS));
                 }
                 break;
             case REQUEST_ENABLE_BT:
@@ -477,11 +877,19 @@ public class BluetoothChatFragment extends Fragment {
                 // Launch the DeviceListActivity to see devices and do scan
                 Intent serverIntent = new Intent(getActivity(), DeviceListActivity.class);
                 startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE_INSECURE);
+
+
                 return true;
             }
             case R.id.discoverable: {
                 // Ensure this device is discoverable by others
                 ensureDiscoverable();
+                return true;
+            }
+
+            case R.id.stop_discoverable: {
+                // Ensure this device is discoverable by others
+                stopDiscoverable();
                 return true;
             }
         }

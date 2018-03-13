@@ -59,8 +59,9 @@ public class MainActivity extends SampleActivityBase {
         setContentView(R.layout.activity_main);
 
         ActionBar actionBar = getActionBar();
-        actionBar.setBackgroundDrawable(new ColorDrawable(0xFF050C33));
+        actionBar.setBackgroundDrawable(new ColorDrawable(0x88050C33));
         getActionBar().setDisplayShowTitleEnabled(true);
+        //actionBar.setTitle(Html.fromHtml("<font color='#ffffff'>Ad-Hoc Chat </font>"));
         getActionBar().setDisplayShowHomeEnabled(false);
 
 

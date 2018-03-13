@@ -87,15 +87,10 @@ public class BluetoothChatFragment extends Fragment {
      * Local Bluetooth adapter
      */
     private BluetoothAdapter mBluetoothAdapter = null;
-
-    ArrayList<String> fuckthis;
-    private ArrayAdapter deviceListArrayAdapter;
     /**
      * Member object for the chat services
      */
     static public ArrayList<BluetoothChatService> mChatServices= new ArrayList<BluetoothChatService>();
-
-    static public ArrayList<BluetoothChatService> mChatServices2= new ArrayList<BluetoothChatService>();
 
 
     @Override
@@ -167,7 +162,6 @@ public class BluetoothChatFragment extends Fragment {
         mConversationView = (ListView) view.findViewById(R.id.in);
         mOutEditText = (EditText) view.findViewById(R.id.edit_text_out);
         mSendButton = (Button) view.findViewById(R.id.button_send);
-        mdevices = (ListView) view.findViewById(R.id.troll);
     }
 
     /**
@@ -181,7 +175,6 @@ public class BluetoothChatFragment extends Fragment {
 
         mConversationView.setAdapter(mConversationArrayAdapter);
 
-        //mdevices.setAdapter(deviceListArrayAdapter);
 
         // Initialize the compose field with a listener for the return key
         mOutEditText.setOnEditorActionListener(mWriteListener);
@@ -198,22 +191,12 @@ public class BluetoothChatFragment extends Fragment {
                 }
             }
 
-            public void onLongClick(View v){
-                View view = getView();
-                if (null != view){
-                    TextView textView = (TextView) view.findViewById(R.id.edit_text_out);
-                    String message = textView.getText().toString();
-                    choosePerson(message);
-                }
-            }
         });
 
         // Initialize the buffer for outgoing messages
         mOutStringBuffer = new StringBuffer("");
     }
-    private void choosePerson(final String message){
 
-    }
     /**
      * Makes this device discoverable for 300 seconds (5 minutes).
      */
@@ -447,7 +430,6 @@ public class BluetoothChatFragment extends Fragment {
                 public void run() {
                     BluetoothChatService chatService= new BluetoothChatService(getActivity(), mHandler, mBluetoothAdapter.getRemoteDevice(address));
                     mChatServices.add(chatService);
-                    fuckthis.add(chatService.getDevice().getName());
                     if(chatService.connect(false))
                         ;
                 }
@@ -486,12 +468,7 @@ public class BluetoothChatFragment extends Fragment {
                 ensureDiscoverable();
                 return true;
             }
-            case R.id.connected:{
-                //deviceListArrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_expandable_list_item_1,);
-                //mdevices.setAdapter(deviceListArrayAdapter);
-                //mdevices.setVisibility(View.VISIBLE);
-                return true;
-            }
+
         }
         return false;
     }

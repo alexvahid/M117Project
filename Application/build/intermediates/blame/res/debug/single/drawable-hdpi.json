@@ -1,11 +1,63 @@
 [
     {
+        "merged": "C:\\Users\\Michael\\m117\\BluetoothChat\\Application\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi\\send_button.png",
+        "source": "C:\\Users\\Michael\\m117\\BluetoothChat\\Application\\src\\main\\res\\drawable-hdpi\\send_button.png"
+    },
+    {
+        "merged": "C:\\Users\\Michael\\m117\\BluetoothChat\\Application\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi\\ic_search_grey600_48dp.png",
+        "source": "C:\\Users\\Michael\\m117\\BluetoothChat\\Application\\src\\main\\res\\drawable-hdpi\\ic_search_grey600_48dp.png"
+    },
+    {
+        "merged": "C:\\Users\\Michael\\m117\\BluetoothChat\\Application\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi\\ic_search_white_48dp.png",
+        "source": "C:\\Users\\Michael\\m117\\BluetoothChat\\Application\\src\\main\\res\\drawable-hdpi\\ic_search_white_48dp.png"
+    },
+    {
+        "merged": "C:\\Users\\Michael\\m117\\BluetoothChat\\Application\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi\\ic_search_black_18dp.png",
+        "source": "C:\\Users\\Michael\\m117\\BluetoothChat\\Application\\src\\main\\res\\drawable-hdpi\\ic_search_black_18dp.png"
+    },
+    {
+        "merged": "C:\\Users\\Michael\\m117\\BluetoothChat\\Application\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi\\ic_search_grey600_36dp.png",
+        "source": "C:\\Users\\Michael\\m117\\BluetoothChat\\Application\\src\\main\\res\\drawable-hdpi\\ic_search_grey600_36dp.png"
+    },
+    {
+        "merged": "C:\\Users\\Michael\\m117\\BluetoothChat\\Application\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi\\ic_search_white_24dp.png",
+        "source": "C:\\Users\\Michael\\m117\\BluetoothChat\\Application\\src\\main\\res\\drawable-hdpi\\ic_search_white_24dp.png"
+    },
+    {
         "merged": "C:\\Users\\Michael\\m117\\BluetoothChat\\Application\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi\\tile.9.png",
         "source": "C:\\Users\\Michael\\m117\\BluetoothChat\\Application\\src\\main\\res\\drawable-hdpi\\tile.9.png"
     },
     {
+        "merged": "C:\\Users\\Michael\\m117\\BluetoothChat\\Application\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi\\ic_search_black_24dp.png",
+        "source": "C:\\Users\\Michael\\m117\\BluetoothChat\\Application\\src\\main\\res\\drawable-hdpi\\ic_search_black_24dp.png"
+    },
+    {
+        "merged": "C:\\Users\\Michael\\m117\\BluetoothChat\\Application\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi\\ic_search_white_36dp.png",
+        "source": "C:\\Users\\Michael\\m117\\BluetoothChat\\Application\\src\\main\\res\\drawable-hdpi\\ic_search_white_36dp.png"
+    },
+    {
+        "merged": "C:\\Users\\Michael\\m117\\BluetoothChat\\Application\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi\\ic_search_black_48dp.png",
+        "source": "C:\\Users\\Michael\\m117\\BluetoothChat\\Application\\src\\main\\res\\drawable-hdpi\\ic_search_black_48dp.png"
+    },
+    {
+        "merged": "C:\\Users\\Michael\\m117\\BluetoothChat\\Application\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi\\ic_search_grey600_24dp.png",
+        "source": "C:\\Users\\Michael\\m117\\BluetoothChat\\Application\\src\\main\\res\\drawable-hdpi\\ic_search_grey600_24dp.png"
+    },
+    {
         "merged": "C:\\Users\\Michael\\m117\\BluetoothChat\\Application\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi\\ic_action_device_access_bluetooth_searching.png",
         "source": "C:\\Users\\Michael\\m117\\BluetoothChat\\Application\\src\\main\\res\\drawable-hdpi\\ic_action_device_access_bluetooth_searching.png"
+    },
+    {
+        "merged": "C:\\Users\\Michael\\m117\\BluetoothChat\\Application\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi\\ic_search_grey600_18dp.png",
+        "source": "C:\\Users\\Michael\\m117\\BluetoothChat\\Application\\src\\main\\res\\drawable-hdpi\\ic_search_grey600_18dp.png"
+    },
+    {
+        "merged": "C:\\Users\\Michael\\m117\\BluetoothChat\\Application\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi\\ic_search_white_18dp.png",
+        "source": "C:\\Users\\Michael\\m117\\BluetoothChat\\Application\\src\\main\\res\\drawable-hdpi\\ic_search_white_18dp.png"
+    },
+    {
+        "merged": "C:\\Users\\Michael\\m117\\BluetoothChat\\Application\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi\\ic_search_black_36dp.png",
+        "source": "C:\\Users\\Michael\\m117\\BluetoothChat\\Application\\src\\main\\res\\drawable-hdpi\\ic_search_black_36dp.png"
     },
     {
         "merged": "C:\\Users\\Michael\\m117\\BluetoothChat\\Application\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi\\bubble_in.9.png",

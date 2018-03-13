@@ -120,10 +120,6 @@
         "source": "C:\\Users\\Michael\\m117\\BluetoothChat\\Application\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\layout\\notification_media_action.xml"
     },
     {
-        "merged": "C:\\Users\\Michael\\m117\\BluetoothChat\\Application\\build\\intermediates\\res\\merged\\debug\\layout\\device_list.xml",
-        "source": "C:\\Users\\Michael\\m117\\BluetoothChat\\Application\\src\\main\\res\\layout\\device_list.xml"
-    },
-    {
         "merged": "C:\\Users\\Michael\\m117\\BluetoothChat\\Application\\build\\intermediates\\res\\merged\\debug\\layout\\abc_screen_simple_overlay_action_mode.xml",
         "source": "C:\\Users\\Michael\\m117\\BluetoothChat\\Application\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\layout\\abc_screen_simple_overlay_action_mode.xml"
     },
@@ -186,10 +182,6 @@
     {
         "merged": "C:\\Users\\Michael\\m117\\BluetoothChat\\Application\\build\\intermediates\\res\\merged\\debug\\layout\\support_simple_spinner_dropdown_item.xml",
         "source": "C:\\Users\\Michael\\m117\\BluetoothChat\\Application\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\layout\\support_simple_spinner_dropdown_item.xml"
-    },
-    {
-        "merged": "C:\\Users\\Michael\\m117\\BluetoothChat\\Application\\build\\intermediates\\res\\merged\\debug\\layout\\right_bubble.xml",
-        "source": "C:\\Users\\Michael\\m117\\BluetoothChat\\Application\\src\\main\\res\\layout\\right_bubble.xml"
     },
     {
         "merged": "C:\\Users\\Michael\\m117\\BluetoothChat\\Application\\build\\intermediates\\res\\merged\\debug\\layout\\abc_list_menu_item_radio.xml",

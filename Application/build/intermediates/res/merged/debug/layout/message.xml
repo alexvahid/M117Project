@@ -24,6 +24,6 @@
     android:textColor="#000"
     app:arrowWidth ='8dp'
     app:arrowHeight = '10dp'
-    app:bubbleColor ="#6aaaea"
+    app:bubbleColor ="#0cea66"
 
     />

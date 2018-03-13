@@ -2115,20 +2115,23 @@ containing a value of this type.
         public static final int apples=0x7f020053;
         public static final int ic_action_device_access_bluetooth_searching=0x7f020054;
         public static final int ic_launcher=0x7f020055;
-        public static final int notification_action_background=0x7f020056;
-        public static final int notification_bg=0x7f020057;
-        public static final int notification_bg_low=0x7f020058;
-        public static final int notification_bg_low_normal=0x7f020059;
-        public static final int notification_bg_low_pressed=0x7f02005a;
-        public static final int notification_bg_normal=0x7f02005b;
-        public static final int notification_bg_normal_pressed=0x7f02005c;
-        public static final int notification_icon_background=0x7f02005d;
-        public static final int notification_template_icon_bg=0x7f020062;
-        public static final int notification_template_icon_low_bg=0x7f020063;
-        public static final int notification_tile_bg=0x7f02005e;
-        public static final int notify_panel_notification_icon_bg=0x7f02005f;
-        public static final int tile=0x7f020060;
-        public static final int uclabruinslogo=0x7f020061;
+        public static final int ic_search_white_24dp=0x7f020056;
+        public static final int ic_settings_input_antenna_white_24dp=0x7f020057;
+        public static final int notification_action_background=0x7f020058;
+        public static final int notification_bg=0x7f020059;
+        public static final int notification_bg_low=0x7f02005a;
+        public static final int notification_bg_low_normal=0x7f02005b;
+        public static final int notification_bg_low_pressed=0x7f02005c;
+        public static final int notification_bg_normal=0x7f02005d;
+        public static final int notification_bg_normal_pressed=0x7f02005e;
+        public static final int notification_icon_background=0x7f02005f;
+        public static final int notification_template_icon_bg=0x7f020065;
+        public static final int notification_template_icon_low_bg=0x7f020066;
+        public static final int notification_tile_bg=0x7f020060;
+        public static final int notify_panel_notification_icon_bg=0x7f020061;
+        public static final int send_button=0x7f020062;
+        public static final int tile=0x7f020063;
+        public static final int uclabruinslogo=0x7f020064;
     }
     public static final class id {
         public static final int action0=0x7f0a0072;

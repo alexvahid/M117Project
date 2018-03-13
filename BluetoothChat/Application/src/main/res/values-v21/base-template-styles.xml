@@ -19,6 +19,7 @@
 
     <!-- Activity themes -->
     <style name="Theme.Base" parent="android:Theme.Material.Light">
+        <item name="titleTextColor">@android:color/white</item>
     </style>
 
 </resources>
